@@ -1,0 +1,86 @@
+<style>
+   body {
+      background-color: #eee;
+      margin: 0px;
+    }
+    .formContainer {
+      margin: 25vmin 0;
+    }
+    .form {
+      font-family: Arial Black;
+      font-size: 16px;
+      color: White;
+    }
+    .formInput {
+      font-family: Arial Black;
+      background-color: White;
+      border-radius: 5px;
+      font-size: 16px;
+      outline: none;
+      padding: 10px;
+      margin: 10px;
+      border:none;
+      color: #444;
+    }
+    .submitButton {
+      background-color: DodgerBlue;
+      font-family: Arial Black;
+      border-radius: 5px;
+      transition: 0.1s;
+      font-size: 16px;
+      cursor: pointer;
+      padding: 10px;
+      color: White;
+      margin-top: 10px;
+      border:none;
+    }
+    .submitButton:hover {
+      background-color: LightSkyBlue;
+      transition: 0.1s;
+    }
+</style>
+
+<!-- Utility functions -->
+<script>
+  const isValid = (apiKey) => apiKey === 'a'; // TODO: Here we need some actual validation
+</script>
+
+<!-- View controller -->
+<script>
+  
+  window.onload = function() {
+    console.log('Loaded window');
+    const apiKey = localStorage.getItem('apiKey');
+    console.log('The loaded api key was ', apiKey);
+    if (isValid(apiKey)) {
+      // document.getElementById('validateApiKeyView').style.display = 'inline';
+    } else {
+      // document.getElementById('validateApiKeyView').style.display = 'none';
+    }
+  }
+</script>
+
+
+<!-- Validate API key -->
+<div id='validateApiKeyView'>
+  <center>
+    <div class='formContainer'>
+      <form name=apiKeyForm class='form'>
+        <input id='apiKeyInput' type='text' name='apiKey' placeholder='API key' class='formInput' size='30'>
+        <br>
+        <input type='button' value='Validate key' class='submitButton' onclick="validateKey();">
+      </form>
+      <script>
+        const validateKey = () => {
+          const apiKey = document.forms['apiKeyForm']['apiKey'].value;
+          if (isValid(apiKey)) {
+            localStorage.setItem('apiKey', apiKey);
+            document.getElementById('apiKeyInput').style['background-color'] = 'GreenYellow';
+          } else {
+            document.getElementById('apiKeyInput').style['background-color'] = 'OrangeRed';
+          }
+        }
+      </script>
+    </div>
+  </center>
+</div>

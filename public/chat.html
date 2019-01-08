@@ -1,0 +1,18 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+  const url = 'localhost:6069';
+  const id = '1';
+
+  const sendMessage = () => {
+    const message = document.getElementById('message').value;
+    $.get(`http://${url}/api/assistant/${id}/${message}`, response => {
+      console.log(response);
+    });
+  } 
+</script>
+
+<div id='chatWndow' style='width:500px;'>
+  <form onsubmit='sendMessage(); return false'>
+    <input id='message' type='text' style='width:100%;' onchange='sendMessage()'>
+  </form>
+</div>

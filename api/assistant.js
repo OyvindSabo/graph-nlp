@@ -5,8 +5,8 @@
  * resulting resulting best match.
  */
 
-class GraphNLP {
-  constructor() {
+class Assistant {
+  constructor(promptToReply) {
     // Basic things
     this.sentences = [];
     this.insignificantWords = ['do', 'to', 'it']; // Later, we could add a dictionary where the significance of each word is a parameter
@@ -15,7 +15,7 @@ class GraphNLP {
 
     // User defined responses
     // A list of objects consisting of a prompt and a reply which may be a function of the response or simply just a string.
-    this.promptToReply = [];
+    this.promptToReply = promptToReply || [];
   }
 
   setPromptToReply({ prompt, replyFunction, replyString }) {
@@ -191,22 +191,26 @@ class GraphNLP {
       if (bestMatch.score < 0.25) {
         return {answer: 'No', certainty: 1 - bestMatch.score};
       }
-      // Certainty o uncertainty - LOL
+      // Certainty of uncertainty - LOL
       return {answer: 'I don\'t know', certainty: 1-Math.abs(0.5-bestMatch.score)};
     }
 
     // Commands
     if (this.isImperative(sentence)) {
-      return 'temporary response to imperativeSentence';
+      return {answer: 'this is a temporary response to imperativeSentence', certainty: 1};
     }
     
     // Statements
     this.storeSentence(sentence);
-    return 'Okay.';
+    return {answer: 'Okay.', certainty: 1};
   }
 }
 
-const testGraph = new GraphNLP();
+module.exports = {
+  Assistant
+}
+
+/*const testGraph = new Assistant();
 //testGraph.storeSentence('I like to travel by plane.');
 console.log(JSON.stringify(testGraph.sentences));
 console.log(testGraph.isWhQuestion('What time is it?'));
@@ -223,4 +227,4 @@ testGraph.setPromptToReply({ prompt: 'Hello', replyFunction: (a) => a+a+a, reply
 testGraph.setPromptToReply({ prompt: 'Goodbye', replyString: 'Goodbye'});
 console.log('-----------------------')
 console.log(testGraph.promptToReply);
-console.log(testGraph.handleSentence('Hello'));
+console.log(testGraph.handleSentence('Hello'));*/

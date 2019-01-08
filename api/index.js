@@ -1,5 +1,5 @@
 const { isValidKey } = require('./authUtils');
-
+const { handleMessage } = require('./handleMessage.js');
 let express = require('express');
 let bodyParser = require('body-parser');
 let app = express();
@@ -29,12 +29,22 @@ app.get('/users/:userId', function(req, res) {
   res.send(getUserById(req.params.userId));
 });
 
-// post users
+// Check if key is valid
 app.post('/api/validateKey', function(req, res) {
   let key = req.body;
   console.log(req.body);
   validity = checkValidity(key);
   res.status(200).send(validity);
+});
+
+// Chat
+app.get('/api/assistant/:id/:message', function(req, res) {
+  const id = req.params.id;
+  console.log(id);
+  const message = req.params.message;
+  console.log(message);
+  const response = handleMessage(message, id);
+  res.status(200).send(response);
 });
 
 app.listen(6069);

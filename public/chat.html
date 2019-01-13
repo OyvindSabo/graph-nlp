@@ -1,18 +1,87 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<style>
+  #chatWindow {
+    width: 500px;
+    background-color: greenyellow;
+  }
+  #previousMessagesWindow {
+    height: 500px;
+    overflow-y: scroll;
+  }
+  #previousMessages {
+    height: 100%;
+    margin: 20px 10px;
+  }
+  #message {
+    width: 100%;
+    padding: 10px;
+  }
+  .messageBubble {
+    background-color: lightblue;
+    padding: 10px;
+  }
+
+</style>
 <script>
   const url = 'localhost:6069';
   const id = '1';
+  let previousMessages = [];
 
+  const displayMessages = () => {
+    document.getElementById('previousMessages').innerHTML = previousMessages.map(previousMessage =>
+      `<div style='text-align:${previousMessage.align};padding:5px;'>
+        <span class='messageBubble'>
+          ${previousMessage.message}
+        </span></div>`).join('<br>') + '<br>';
+    updateScroll();
+  }
+
+  const storeMessages = () => {
+    localStorage.setItem('previousMessages', JSON.stringify(previousMessages));
+    displayMessages();
+  }
+
+  const loadMessages = () => {
+    previousMessages = JSON.parse(localStorage.getItem('previousMessages')) || [];
+    displayMessages();
+  }
+
+  const updateScroll = () => {
+    const previousMessageWindow = document.getElementById("previousMessagesWindow");
+    previousMessageWindow.scrollTop = previousMessageWindow.scrollHeight;
+  }
+  
   const sendMessage = () => {
     const message = document.getElementById('message').value;
-    $.get(`http://${url}/api/assistant/${id}/${message}`, response => {
-      console.log(response);
-    });
+    document.getElementById('message').value = '';
+    previousMessages.push({message: message, align: 'right'});
+    storeMessages();
+    displayMessages();
+    setTimeout(() => {
+      $.get(`http://${url}/api/assistant/${id}/${message}`, response => {
+        console.log(response);
+        previousMessages.push({message: response.answer, align: 'left'});
+        storeMessages();
+        displayMessages();
+      });
+    }, 3000);
   } 
 </script>
 
+<script>
+  window.onload = function() {
+    console.log('Loaded window');
+    loadMessages();
+    console.log('The previous messages are ', previousMessages);
+  }
+</script>
+
 <div id='chatWndow' style='width:500px;'>
+  <div id='previousMessagesWindow'>
+    <div id='previousMessages'>
+    </div>
+  </div>
   <form onsubmit='sendMessage(); return false'>
-    <input id='message' type='text' style='width:100%;' onchange='sendMessage()'>
+    <input id='message' type='text'>
   </form>
 </div>

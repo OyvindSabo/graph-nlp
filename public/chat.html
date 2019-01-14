@@ -1,23 +1,52 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <style>
+  input {
+    outline: none;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: lightblue; 
+    border-radius: 5px;
+
+    -moz-box-shadow:    inset 0 0 20px black;
+    -webkit-box-shadow: inset 0 0 20px black;
+    box-shadow:         inset 0 0 20px black;
+  }
   #chatWindow {
+    font-family: Arial Black;
     width: 500px;
     background-color: lightblue;
     padding: 5px;
-    border-radius: 5px;
+    border-radius: 10px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+  #chatHeader {
+    margin: 10px;
   }
   #previousMessagesWindow {
     height: 500px;
     overflow-y: scroll;
     background-color: darkslategray;
+    border-radius: 5px;
   }
   #previousMessages {
     height: 100%;
     margin: 20px 10px;
   }
+  #messageForm {
+    margin: 5px 0px 5px 0;
+    /*margin-block-end: 0px;*/
+  }
   #message {
+    font-family: Arial Black;
     width: 100%;
     padding: 10px;
+    border: none;
+    color: lightblue;
     background-color: darkslategray;
     border-radius: 5px;
   }
@@ -38,6 +67,10 @@
     background-color: lightblue;
     padding: 10px;
     border-radius: 5px;
+
+    -moz-box-shadow:    inset 0 0 50px black;
+    -webkit-box-shadow: inset 0 0 50px black;
+    box-shadow:         inset 0 0 50px black;
   }
 
 </style>
@@ -96,11 +129,12 @@
 </script>
 
 <div id='chatWindow' class='innerShadow'>
+  <div id='chatHeader'><h1>Mr. Assistant</h1></div>
   <div id='previousMessagesWindow' class='innerShadow'>
     <div id='previousMessages'>
     </div>
   </div>
-  <form onsubmit='sendMessage(); return false'>
-    <input id='message' type='text'>
+  <form id='messageForm' onsubmit='sendMessage(); return false'>
+    <input id='message' class='innerShadow' type='text' autocomplete='off'>
   </form>
 </div>

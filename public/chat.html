@@ -110,11 +110,17 @@
     storeMessages();
     displayMessages();
     setTimeout(() => {
-      $.get(`http://${url}/api/assistant/${id}/${message}`, response => {
-        console.log(response);
-        previousMessages.push({message: response.answer, align: 'left'});
-        storeMessages();
-        displayMessages();
+      $.ajax({
+        type: 'POST',
+        url: `http://${url}/api/assistant/${id}`,
+        data: { 
+          'message': message,
+        },
+        success: response => {
+          previousMessages.push({message: response.answer, align: 'left'});
+          storeMessages();
+          displayMessages();
+        }
       });
     }, 3000);
   } 

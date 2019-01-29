@@ -5,7 +5,7 @@ let bodyParser = require('body-parser');
 let app = express();
 
 //Allow all requests from all domains & localhost
-app.all('/*', function(req, res, next) {
+app.all('/*', (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Accept");
   res.header("Access-Control-Allow-Methods", "POST, GET");
@@ -16,13 +16,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 // get all users
-app.get('/api', function(req, res) {
+app.get('/api', (req, res) => {
   console.log("GET From SERVER");
   res.send('The API is working like it should :)');
 });
 
 // get specific user
-app.get('/users/:userId', function(req, res) {
+app.get('/users/:userId', (req, res) => {
   console.log("GET From SERVER");
   console.log(req.params.userId);
   console.log(req.params.userId);
@@ -30,7 +30,7 @@ app.get('/users/:userId', function(req, res) {
 });
 
 // Check if key is valid
-app.post('/api/validateKey', function(req, res) {
+app.post('/api/validateKey', (req, res) => {
   let key = req.body;
   console.log(req.body);
   validity = checkValidity(key);
@@ -38,11 +38,9 @@ app.post('/api/validateKey', function(req, res) {
 });
 
 // Chat
-app.get('/api/assistant/:id/:message', function(req, res) {
+app.post('/api/assistant/:id', (req, res) => {
   const id = req.params.id;
-  console.log(id);
-  const message = req.params.message;
-  console.log(message);
+  const message = req.body.message;
   const response = handleMessage(message, id);
   res.status(200).send(response);
 });

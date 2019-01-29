@@ -21,13 +21,15 @@ const setPromptsToReplies = (userId, promptsToReplies) => {
 
 /*const samplePromptsToReplies = [
   {
-    prompt: 'Jumping over a <thing> is <adjective>.', replyFunction: {arguments: '{ thing, adjective }', body: 'return `Yes, jumping over a ${thing} is indeed ${adjective}`'}
+    prompt: 'Jumping over a <thing> is <adjective>.', replyFunction: {arguments: '{ thing, adjective }', body: 'return `Yes, jumping over a ${thing} is indeed ${adjective}.`'}
   }, {
     prompt: 'Hello there', replyFunction: {arguments:'', body: 'return `Hello, yourself`'}
   }, {
     prompt: 'Goodbye', replyFunction: {arguments: '', body: 'return `Goodbye yourself`'}
   }, {
     prompt: 'Hello, my name is <name>.', replyFunction: {arguments: '{ name }', body: 'return `Hello, ${name}!`'}
+  }, {
+    prompt: 'Wat is <planet>?', replyFunction: {arguments: '{ planet }', body: 'return `${planet} is a planet in our solar system.`'}
   }
 ];*/
 
